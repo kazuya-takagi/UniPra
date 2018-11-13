@@ -16,13 +16,19 @@ public class PlayerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        float chasedirx = this.transform.position.x - this.chaseObject.transform.position.x;
-        float chasediry = this.transform.position.y - this.chaseObject.transform.position.y;
-
+        // プレイヤーと対象の座標の差を取って、2次元ベクトルの成分とする
+        float chasedirx = this.chaseObject.transform.position.x - this.transform.position.x;
+        float chasediry = this.chaseObject.transform.position.y - this.transform.position.y;
+        // 三平方の定理を使って対象への単位ベクトルを作成用のベクトルの長さ
         float chasedirlength = Mathf.Sqrt(chasedirx * chasedirx + chasediry * chasediry);
-
-        transform.Translate(chasedirx / chasedirlength / 10, chasediry / chasedirlength / 10, 0);
+        // 単位ベクトルを用いてプレイヤーを移動させる
+        transform.Translate(- chasedirx / chasedirlength / 10, chasediry / chasedirlength / 10, 0);
         
-        //transform.position.x += chasedirx / chasedirlength;
+        if(chasedirlength < 1)
+        {
+            Destroy(chaseObject);
+            
+        }
+
     }
 }
